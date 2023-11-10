@@ -1,5 +1,5 @@
 
-
+//CONEXAO COM BANCO DE DADOS
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('Teste','sa','123456',{

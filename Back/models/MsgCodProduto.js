@@ -1,6 +1,9 @@
+//CRIAR A TABELA NO BANCO DE DADOS
+
 const Sequelize = require("sequelize");
 const db = require('./db');
 
+//CRIAR O NOME DA TABELA E AS COLUNAS
 const MsgCodProduto = db.define('codigo_produtos',{
     id: {
         type: Sequelize.INTEGER,

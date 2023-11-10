@@ -1,6 +1,11 @@
+//CRIAR A TABELA NO BANCO DE DADOS
+
 const Sequelize = require("sequelize");
 const db = require('./db');
+const MsgCliente = require('./MsgCliente');
+const MsgFilialCliente = require("./MsgFilialCliente");
 
+//CRIAR O NOME DA TABELA E AS COLUNAS
 const MsgCadInventario = db.define('cad_inventario',{
     id: {
         type: Sequelize.INTEGER,
@@ -14,12 +19,12 @@ const MsgCadInventario = db.define('cad_inventario',{
         allowNull: false
     },
 
-    cliente:{
+    clienteId:{
         type: Sequelize.INTEGER,
         allowNull: false
     },
     
-    filial_cliente:{
+    filial_clienteId:{
         type: Sequelize.INTEGER,
         allowNull: false
     },
@@ -40,6 +45,11 @@ const MsgCadInventario = db.define('cad_inventario',{
     }
     
 });
+
+
+//ADICIONANDO CHAVE ESTRANGEIRA 
+//MsgCadInventario.belongsTo(MsgCliente, {foreignKey: 'clienteId', allowNull: false})
+//MsgCadInventario.belongsTo(MsgFilialCliente, {foreignKey: 'filial_clienteId', allowNull: false})
 
 //Criar tabela no BD
 //MsgCadInventario.sync();

@@ -1,19 +1,22 @@
-//nodemon app
+
 
 const express = require('express');
 const cors = require('cors')
 const app = express();
 
-const Home = require('./models/Home');
+// =========================================================================================
+
+//TRAZENDO OS DADOS DAS TABELAS
 const MsgCodProduto = require('./models/MsgCodProduto');
 const MsgFilialCliente = require('./models/MsgFilialCliente');
-const MsgDePara = require('./models/MsgDePara');
 const MsgCadInventario = require('./models/MsgCadInventario');
 const MsgCadMaquinas = require('./models/MsgCadMaquinas');
 const MsgCliente = require('./models/MsgCliente')
 
-app.use(express.json());
+// =========================================================================================
 
+//CONFIGURANDO JSON
+app.use(express.json());
 
 app.use((req, res, next) =>{
     res.header("Access-Control-Allow-Origin", "*");
@@ -23,63 +26,11 @@ app.use((req, res, next) =>{
     next();
 })
 
-app.get('/', async(req,res)=>{
+// =========================================================================================
 
-    /*await Home.findOne({
-        attributes: ['id','text_one', 'text_two', 'btn_enviar', 'btn_link']
-    })
-        .then((datahome) =>{
-           return res.json({
-            erro: false,
-            datahome
-           }) 
-        }).catch(() =>{
-            return res.status(400).json({
-                erro: true,
-                mensagem: "ERRO: Nenum valor encontrado para a pagina Home!"
-            });
-        });*/
+//ROTAS
 
-
-    return res.json({
-        erro: false,
-        datahome: {
-            text_one: "Codigo:", 
-            text_two:"Descrição:", 
-            btn_enviar: "Enviar",
-            btn_link: "http://localhost:3000/filial_cliente"
-        }
-    });
-});
-
-
-app.post('/add-home', async(req, res) => {
-
-    const dataHome = await Home.findOne();
-
-    if(dataHome){
-        return res.status(400).json({
-            erro: true,
-            mensagem: "ERRO ao tentar cadastar a pagina Home"
-        });
-    }
-
-    await Home.create(req.body)
-    .then(() =>{
-        return res.json({
-            erro: false,
-            mensagem: "Dados para página Home cadastrado com suceso!!"
-        });
-    }).catch(() =>{
-        return res.json({
-            erro: true,
-            mensagem: "ERRO ao tentar cadastar a pagina Home"
-        });
-    });
-
-});
-
-//CODIGO PRODUTO
+//ROTA DO CODIGO PRODUTO CONFERINDO O CADASTRO NO BANCO DE DADOS
 app.post("/add-cod-produto", async (req, res) =>{
     //console.log(req.body);
 
@@ -99,7 +50,27 @@ app.post("/add-cod-produto", async (req, res) =>{
    
 });
 
-//FILIAL CLIENTE
+//ROTA DO CLIENTE CONFERINDO O CADASTRO NO BANCO DE DADOS
+app.post("/add-cliente", async (req, res) =>{
+    //console.log(req.body);
+
+    await MsgCliente.create(req.body)
+    .then((MsgCliente) =>{
+        return res.json({
+            erro: false,
+            id: MsgCliente.id,
+            mensagem: "Cliente cadastrado com sucesso!!"
+        });
+    }).catch(()=>{
+        return res.status(400).json({
+            erro: true,
+            mensagem: "ERRO: Cliente NAO cadastrado!! **"
+            
+        });
+    }); 
+});
+
+//ROTA DO FILIAL CLIENTE CONFERINDO O CADASTRO NO BANCO DE DADOS
 app.post("/add-filial-cliente", async (req, res) =>{
     //console.log(req.body);
 
@@ -118,28 +89,24 @@ app.post("/add-filial-cliente", async (req, res) =>{
     });
    
 });
-
-//DE PARA
-app.post("/add-depara", async (req, res) =>{
-    //console.log(req.body);
-
-    await MsgDePara.create(req.body)
-    .then((MsgDePara) =>{
-        return res.json({
-            erro: false,
-            id: MsgDePara.id,
-            mensagem: "De Para cadastrado com sucesso!!"
-        });
-    }).catch(()=>{
+                                    //***************//
+//ROTA DA CHAVE ESTRANGEIRA DO CAD_INVENTARIO CONFERINDO SE DEU CERTO E PASSANDO OS DADOS
+/*app.get('/add-cad-inventario', async (req, res) =>{
+     MsgCadInventario.findAll({
+        
+    })
+    .then((MsgCadInventario) =>{
+        return res.json(MsgCadInventario, {erro: false});
+    }).catch(() =>{
         return res.status(400).json({
             erro: true,
-            mensagem: "ERRO: De Para NÃO cadastrado!!"
-        });
-    });
-   
-});
+            mensagem: "Deu erro no GET!!!"
+        })
+    })
+    
+})*/
 
-//CADASTRO INVENTARIO
+//ROTA DO CADASTRO INVENTARIO CONFERINDO O CADASTRO NO BANCO DE DADOS
 app.post("/add-cad-inventario", async (req, res) =>{
     //console.log(req.body);
 
@@ -153,14 +120,14 @@ app.post("/add-cad-inventario", async (req, res) =>{
     }).catch(()=>{
         return res.status(400).json({
             erro: true,
-            mensagem: "ERRO: Inventario NÃO cadastrado!!"
+            mensagem: "ERRO: Inventario NÃO cadastrado!!!"
             
         });
     });
    
 });
 
-//CADASTRO MAQUINAS
+//ROTA DO CADASTRO DE MAQUINAS CONFERINDO O CADASTRO NO BANCO DE DADOS
 app.post("/add-cad-maquinas", async (req, res) =>{
     //console.log(req.body);
 
@@ -181,31 +148,146 @@ app.post("/add-cad-maquinas", async (req, res) =>{
    
 });
 
-//CLIENTE
-app.post("/add-cliente", async (req, res) =>{
-    //console.log(req.body);
 
-    await MsgCliente.create(req.body)
-    .then((MsgCliente) =>{
-        return res.json({
-            erro: false,
-            id: MsgCliente.id,
-            mensagem: "Cliente cadastrado com sucesso!!"
-        });
-    }).catch(()=>{
+
+// =========================================================================================
+
+
+// APIs
+
+app.get("/api-tabCodProdutos", (req,res) => {
+
+    MsgCodProduto.findAll({}).then((MsgCodProduto) =>{
+        return res.json(MsgCodProduto);
+    }).catch((erro) =>{
         return res.status(400).json({
-            erro: true,
-            mensagem: "ERRO: Cliente NAO cadastrado!!"
-            
-        });
-    });
-   
-});
+            error: true,
+            mensagem: "Nenhum cliente encontrado **get /show**"
+        })
+    })
+})
 
+app.get("/api-tabCliente", (req,res) => {
+
+    MsgCliente.findAll({}).then((MsgCliente) =>{
+        return res.json(MsgCliente);
+    }).catch((erro) =>{
+        return res.status(400).json({
+            error: true,
+            mensagem: "Nenhum cliente encontrado **get /show**"
+        })
+    })
+})
+
+app.get("/api-tabFilialCliente", (req,res) => {
+
+    MsgFilialCliente.findAll({}).then((MsgFilialCliente) =>{
+        return res.json(MsgFilialCliente);
+    }).catch((erro) =>{
+        return res.status(400).json({
+            error: true,
+            mensagem: "Nenhum cliente encontrado **get /show**"
+        })
+    })
+})
+
+app.get("/api-tabCadInventario", (req,res) => {
+
+    MsgCadInventario.findAll({}).then((MsgCadInventario) =>{
+        return res.json(MsgCadInventario);
+    }).catch((erro) =>{
+        return res.status(400).json({
+            error: true,
+            mensagem: "Nenhum cliente encontrado **get /show**"
+        })
+    })
+})
+
+app.get("/api-tabCadMaquinas", (req,res) => {
+
+    MsgCadMaquinas.findAll({}).then((MsgCadMaquinas) =>{
+        return res.json(MsgCadMaquinas);
+    }).catch((erro) =>{
+        return res.status(400).json({
+            error: true,
+            mensagem: "Nenhum cliente encontrado **get /show**"
+        })
+    })
+})
+
+// =========================================================================================
+
+//VISUALIZAR
+
+app.get("/MsgCodProduto/:id", (req, res) => {
+    MsgCodProduto.findOne({id:req.params.id}).then((MsgCodProduto) => {
+        return res.json(MsgCodProduto)
+    }).catch((erro) =>{
+        return res.status(400).json({
+            error: true,
+            mensagem: "Nenhum id encontrado"
+        })
+    })
+})
+
+
+app.get("/MsgCliente/:id", (req, res) => {
+    MsgCliente.findOne({cliente:req.params.id}).then((MsgCliente) => {
+        return res.json(MsgCliente)
+    }).catch((erro) =>{
+        return res.status(400).json({
+            error: true,
+            mensagem: "Nenhum cliente encontrado"
+        })
+    })
+})
+
+app.get("/MsgFilialCliente/:id", (req, res) => {
+    MsgFilialCliente.findOne({codigo_filial_cliente:req.params.id}).then((MsgFilialCliente) => {
+        return res.json(MsgFilialCliente)
+    }).catch((erro) =>{
+        return res.status(400).json({
+            error: true,
+            mensagem: "Nenhuma filial cliente encontrada"
+        })
+    })
+})
+
+app.get("/MsgCadInventario/:id", (req, res) => {
+    MsgCadInventario.findOne({id:req.params.id}).then((MsgCadInventario) => {
+        return res.json(MsgCadInventario)
+    }).catch((erro) =>{
+        return res.status(400).json({
+            error: true,
+            mensagem: "Nenhum cadastro de inventario encontrado"
+        })
+    })
+})
+
+app.get("/MsgCadMaquinas/:id", (req, res) => {
+    MsgCadMaquinas.findOne({id:req.params.id}).then((MsgCadMaquinas) => {
+        return res.json(MsgCadMaquinas)
+    }).catch((erro) =>{
+        return res.status(400).json({
+            error: true,
+            mensagem: "Nenhum cadastro de inventario encontrado"
+        })
+    })
+})
+
+// =========================================================================================
+
+//PORTA ONDE SERVIDOR ESTÁ CONECTADO
 app.listen(8000, () =>{
     console.log("Servidor Ligado!!! Porta 8000")
 })
 
+
+
+
 //para o banco de dados:
 //npm install --save sequelize
 //npm install --save tedious
+
+//INICIALIZAR O SERVIDOR
+//nodemon app

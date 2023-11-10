@@ -1,17 +1,15 @@
+//CRIAR A TABELA NO BANCO DE DADOS
+
 const Sequelize = require("sequelize");
 const db = require('./db');
 
+//CRIAR O NOME DA TABELA E AS COLUNAS
 const MsgFilialCliente = db.define('filial_cliente',{
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-    },
-
+    
     codigo_filial_cliente:{
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
     },
 
     descicao_filial_cliente:{

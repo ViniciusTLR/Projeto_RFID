@@ -1,3 +1,5 @@
+//FORMULARIO DO CADASTRO_MAQUINAS
+
 import { useState } from 'react'
 import Head from 'next/head'
 import Menu from '../components/Menu'
@@ -6,6 +8,7 @@ const espacoStyle = {
     marginRight: 25
 }
 
+//funcao para cadastrar de maquinas
 function cadastro_maquinas() {
 
     const [dataForm, setDataForm] = useState({
@@ -66,6 +69,7 @@ function cadastro_maquinas() {
         }*/
     }
 
+    //Parte da pagina web
     return <div>
         <Head>
             <meta charSet='utf-8' />
@@ -95,6 +99,7 @@ function cadastro_maquinas() {
                 </form>
             </div>
         </section>
+        <br />
         PÁGINA Cadastro Maquinas
     </div>
 }

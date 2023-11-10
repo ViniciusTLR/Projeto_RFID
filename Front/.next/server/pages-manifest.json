@@ -2,6 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/cadastro_inventario": "pages/cadastro_inventario.js"
+  "/cadastro_inventario": "pages/cadastro_inventario.js",
+  "/codigo_produto": "pages/codigo_produto.js",
+  "/cadastro_maquinas": "pages/cadastro_maquinas.js",
+  "/": "pages/index.js"
 }

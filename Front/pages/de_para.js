@@ -1,3 +1,5 @@
+//FORMULARIO DE_PARA
+
 import { useState } from 'react'
 import Head from 'next/head'
 import Menu from '../components/Menu'
@@ -6,6 +8,7 @@ const espacoStyle = {
     marginRight: 25
 }
 
+//funcao para cadastrar DE PARA
 function de_para() {
 
     const [dataForm, setDataForm] = useState({
@@ -78,7 +81,7 @@ function de_para() {
         }*/
     }
 
-
+    //Parte da pagina web
     return <div>
         <Head>
             <meta charSet='utf-8' />
@@ -116,7 +119,7 @@ function de_para() {
             </form>
             </div>
         </section>
-
+        <br />
         PÁGINA DE PARA
     </div>
 }

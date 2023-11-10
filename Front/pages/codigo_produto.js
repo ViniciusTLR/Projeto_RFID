@@ -1,3 +1,5 @@
+//FORMULARIO DO CODIGO_PRODUTO
+
 import { useState } from 'react'
 import Head from 'next/head'
 import Menu from '../components/Menu'
@@ -8,6 +10,7 @@ const espacoStyle = {
     marginRight: 25
 }
 
+//funcao para cadastrar codigo dos produtos
 function codigo_produto() {
 
     const [dataForm, setDataForm] = useState({
@@ -97,6 +100,7 @@ function codigo_produto() {
         }*/
     }
 
+    //Parte da pagina web
     return <div>
         <Head>
             <meta charSet='utf-8' />

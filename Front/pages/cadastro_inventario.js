@@ -1,3 +1,5 @@
+//FORMULARIO DO CADASTRO_INVETARIO
+
 import { useState } from 'react'
 import Head from 'next/head'
 import Menu from '../components/Menu'
@@ -6,12 +8,14 @@ const espacoStyle = {
     marginRight: 25
 }
 
+
+//funcao para cadastrar o formulario
 function cadastro_inventario() {
 
     const [dataForm, setDataForm] = useState({
         cod_inventario: '',
-        cliente: '',
-        filial_cliente: '',
+        clienteId: '',
+        filial_clienteId: '',
         data_inventario: '',
         desc_inventario: '',
         tamanho_cod_RFID: ''
@@ -22,8 +26,8 @@ function cadastro_inventario() {
     const sendCadInventario = async e => {
         e.preventDefault();
         console.log(dataForm.cod_inventario);
-        console.log(dataForm.cliente);
-        console.log(dataForm.filial_cliente);
+        console.log(dataForm.clienteId);
+        console.log(dataForm.filial_clienteId);
         console.log(dataForm.data_inventario);
         console.log(dataForm.desc_inventario);
         console.log(dataForm.tamanho_cod_RFID);
@@ -45,8 +49,8 @@ function cadastro_inventario() {
 
         setDataForm({
             cod_inventario: '',
-            cliente: '',
-            filial_cliente: '',
+            clienteId: '',
+            filial_clienteId: '',
             data_inventario: '',
             desc_inventario: '',
             tamanho_cod_RFID: '',
@@ -80,8 +84,10 @@ function cadastro_inventario() {
         } catch (err) {
             console.log("ERRO: Tente novamente")
         }*/
-    }
+    } 
 
+
+    //Parte da pagina web
     return <div>
         <Head>
             <meta charSet='utf-8' />
@@ -102,11 +108,11 @@ function cadastro_inventario() {
                     Codigo Inventario:
                     <input style={espacoStyle} type="number" id="cod_inventario" name="cod_inventario" onChange={onChangeInput} value={dataForm.cod_inventario}></input>
 
-                    Cliente:
-                    <input style={espacoStyle} type="number" id="cliente" name="cliente" onChange={onChangeInput} value={dataForm.cliente}></input>
+                    clienteId:
+                     <input style={espacoStyle} type="select" id="clienteId" name="clienteId" onChange={onChangeInput} value={dataForm.clienteId}></input>
 
                     Filial Cliente:
-                    <input style={espacoStyle} type="number" id="filial_cliente" name="filial_cliente" onChange={onChangeInput} value={dataForm.filial_cliente}></input>
+                    <input style={espacoStyle} type="number" id="filial_clienteId" name="filial_clienteId" onChange={onChangeInput} value={dataForm.filial_clienteId}></input>
 
                     <br /> <br />
 
@@ -118,6 +124,14 @@ function cadastro_inventario() {
 
                     Tamanho do codigo RFID:
                     <input style={espacoStyle} type="number" id="tamanho_cod_RFID" name="tamanho_cod_RFID" onChange={onChangeInput} value={dataForm.tamanho_cod_RFID}></input>
+                    
+                    <br /> <br />
+
+                    Selecione o codigo da Filial:
+                    <select >
+                        <option >Selecione a Filial</option>
+                        
+                    </select>
 
                     <div name="botaoEnviar">
                         <br />
@@ -131,5 +145,6 @@ function cadastro_inventario() {
         PÁGINA Cadastro Inventario
     </div>
 }
+
 
 export default cadastro_inventario;

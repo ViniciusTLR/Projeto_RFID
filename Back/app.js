@@ -174,7 +174,7 @@ app.get("/api-tabCliente", (req,res) => {
     }).catch((erro) =>{
         return res.status(400).json({
             error: true,
-            mensagem: "Nenhum cliente encontrado **get /show**"
+            mensagem: "Nenhum cliente encontrado"
         })
     })
 })
@@ -186,7 +186,7 @@ app.get("/api-tabFilialCliente", (req,res) => {
     }).catch((erro) =>{
         return res.status(400).json({
             error: true,
-            mensagem: "Nenhum cliente encontrado **get /show**"
+            mensagem: "Nenhum cliente encontrado"
         })
     })
 })

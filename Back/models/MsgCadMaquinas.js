@@ -6,20 +6,15 @@ const db = require('./db');
 
 //CRIAR O NOME DA TABELA E AS COLUNAS
 const MsgCadMaquinas = db.define('cad_maquinas',{
-    id: {
+    
+    cod_maquina:{
         type: Sequelize.INTEGER,
-        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
 
-    cod_maquina:{
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-
     nome_maquina:{
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     }
     

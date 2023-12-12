@@ -5,11 +5,11 @@ const db = require('./db');
 
 //CRIAR O NOME DA TABELA E AS COLUNAS
 const MsgFilialCliente = db.define('filial_cliente',{
-    
+
     codigo_filial_cliente:{
         type: Sequelize.INTEGER,
+        primaryKey: true,
         allowNull: false,
-        primaryKey: true
     },
 
     descicao_filial_cliente:{

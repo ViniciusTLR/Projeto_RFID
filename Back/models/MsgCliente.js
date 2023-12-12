@@ -9,7 +9,8 @@ const MsgCliente = db.define('cliente',{
     cliente:{
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true,
     },
 
     desc_cliente:{

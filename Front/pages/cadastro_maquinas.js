@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import Head from 'next/head'
-import Menu from '../components/Menu'
+import Menu from '../src/components/Menu/Menu'
+import Consult from '../src/components/Consult/apiCadMaquinas'
 
 const espacoStyle = {
     marginRight: 25
@@ -69,6 +70,13 @@ function cadastro_maquinas() {
         }*/
     }
 
+    //variavel para o botao consultar
+    const [consultar, setConsultar] = useState(false);
+
+    function handleClickConsultar() {
+        setConsultar(!consultar);
+    }
+
     //Parte da pagina web
     return <div>
         <Head>
@@ -90,13 +98,25 @@ function cadastro_maquinas() {
                     <input style={espacoStyle} type="number" id="cod_maquina" name="cod_maquina" onChange={onChangeInput} value={dataForm.cod_maquina}></input>
 
                     Nome da Maquina:
-                    <input style={espacoStyle} type="number" id="nome_maquina" name="nome_maquina" onChange={onChangeInput} value={dataForm.nome_maquina}></input>
+                    <input style={espacoStyle} type="text" id="nome_maquina" name="nome_maquina" onChange={onChangeInput} value={dataForm.nome_maquina}></input>
 
-                    <div name="botaoEnviar">
+                    <div className='blocobtn'>
                         <br />
-                        <button type='submit' >Enviar</button>
+                        <div className='btn'>
+                            <button type='submit'>Enviar</button>
+                        </div>
+                        <div className='btn'>
+                            <button type='button' onClick={handleClickConsultar}>consultar</button>
+                        </div>
                     </div>
                 </form>
+
+                {consultar === true && (
+                    <Consult />
+                )}
+
+                {consultar === false && (<div></div>)}
+
             </div>
         </section>
         <br />

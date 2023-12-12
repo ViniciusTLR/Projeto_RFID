@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Head from 'next/head'
-import Menu from '../components/Menu'
+import Menu from '../src/components/Menu/Menu'
 
 const espacoStyle = {
     marginRight: 25
@@ -114,7 +114,7 @@ function de_para() {
 
                 <div name="botaoEnviar">
                     <br />
-                    <button type='submit'>Enviar</button>
+                    <button type='submit'>consultar</button>
                 </div>
             </form>
             </div>

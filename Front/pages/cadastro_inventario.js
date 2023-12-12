@@ -1,8 +1,13 @@
 //FORMULARIO DO CADASTRO_INVETARIO
 
-import { useState } from 'react'
+import { useEffect, useState, Component } from 'react'
 import Head from 'next/head'
-import Menu from '../components/Menu'
+import Menu from '../src/components/Menu/Menu'
+import api from '../src/services/api'
+import SelectCliente from '../src/components/SelectCliente/index.js.js'
+import SelectFilialCliente from '../src/components/SelectFilialCliente/index.js'
+import Consult from '../src/components/Consult/apiCadInventario.js'
+
 
 const espacoStyle = {
     marginRight: 25
@@ -11,6 +16,23 @@ const espacoStyle = {
 
 //funcao para cadastrar o formulario
 function cadastro_inventario() {
+
+    const [dadosBD, setdadosBD] = useState([]);
+
+    useEffect(() => {
+        
+        async function loadDadosBD() {
+            const response = await api.get("api-tabCadInventario", {
+
+            })
+            console.log(response.data)
+            setdadosBD(response.data)
+                  
+        }
+
+        loadDadosBD();
+
+    }, [])
 
     const [dataForm, setDataForm] = useState({
         cod_inventario: '',
@@ -56,35 +78,16 @@ function cadastro_inventario() {
             tamanho_cod_RFID: '',
         });
 
-        /*try {
-            const res = await fetch('http://localhost:8000/add-cad-inventario', {
-                method: 'POST',
-                body: JSON.stringify(dataForm),
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            const responseEnv = await res.json();
-
-            if (responseEnv.erro) {
-                console.log(responseEnv.mensagem)
-            } else {
-                console.log(responseEnv.mensagem)
-            }
-
-            setDataForm({
-                cod_inventario: '',
-                cliente: '',
-                filial_cliente: '',
-                data_inventario: '',
-                desc_inventario: '',
-                tamanho_cod_RFID: ''
-            });
-
-
-        } catch (err) {
-            console.log("ERRO: Tente novamente")
-        }*/
     } 
+
+    //variavel para o botao consultar
+    const [consultar, setConsultar] = useState(false);
+
+    function handleClickConsultar(e) {
+        setConsultar(!consultar);
+
+    }
+
 
 
     //Parte da pagina web
@@ -104,11 +107,17 @@ function cadastro_inventario() {
             <div>
                 <form onSubmit={sendCadInventario}>
 
+                <br/><SelectCliente/><br/>
+
+                <span>Filiais:</span>
+                    <SelectFilialCliente/> <br/>
+
+
                     <br />
                     Codigo Inventario:
                     <input style={espacoStyle} type="number" id="cod_inventario" name="cod_inventario" onChange={onChangeInput} value={dataForm.cod_inventario}></input>
 
-                    clienteId:
+                    cliente:
                      <input style={espacoStyle} type="select" id="clienteId" name="clienteId" onChange={onChangeInput} value={dataForm.clienteId}></input>
 
                     Filial Cliente:
@@ -127,19 +136,25 @@ function cadastro_inventario() {
                     
                     <br /> <br />
 
-                    Selecione o codigo da Filial:
-                    <select >
-                        <option >Selecione a Filial</option>
-                        
-                    </select>
-
-                    <div name="botaoEnviar">
+                    <div className='blocobtn'>
                         <br />
-                        <button type='submit'>Enviar</button>
+                        <div className='btn'>
+                            <button type='submit'>Enviar</button>
+                        </div>
+                        <div className='btn'>
+                            <button type='button' onClick={handleClickConsultar}>consultar</button>
+                        </div>
                     </div>
                 </form>
 
             </div>
+
+            {consultar === true && (
+                    <Consult />
+                )}
+
+                {consultar === false && (<div></div>)}
+
         </section>
 
         PÁGINA Cadastro Inventario

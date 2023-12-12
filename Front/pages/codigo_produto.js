@@ -1,10 +1,12 @@
 //FORMULARIO DO CODIGO_PRODUTO
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import Menu from '../components/Menu'
-
-
+import Menu from '../src/components/Menu/Menu'
+import api from '../src/services/api'
+import Consult from '../src/components/Consult/apiCodProdutos'
+import SelectCliente from '../src/components/SelectCliente/index.js.js'
+import SelectFilialCliente from '../src/components/SelectFilialCliente/index.js'
 
 const espacoStyle = {
     marginRight: 25
@@ -12,6 +14,26 @@ const espacoStyle = {
 
 //funcao para cadastrar codigo dos produtos
 function codigo_produto() {
+
+    const [dadosBD, setdadosBD] = useState([]);
+
+    useEffect(() => {
+        
+        async function loadDadosBD() {
+            const response = await api.get("api-tabCodProdutos", {
+
+            })
+            console.log(response.data)
+            setdadosBD(response.data)
+                  
+        }
+
+        loadDadosBD();
+
+    }, [])
+
+
+
 
     const [dataForm, setDataForm] = useState({
         codigo_prod_cliente: '',
@@ -66,38 +88,14 @@ function codigo_produto() {
             estoque_cod_cliente: ''
         });
 
+    }
 
-        /*try {
-            const res = await fetch('http://localhost:8000/add-cod-produto', {
-                method: 'POST',
-                body: JSON.stringify(dataForm),
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            const responseEnv = await res.json();
-
-            if (responseEnv.erro) {
-                console.log(responseEnv.mensagem)
-            } else {
-                console.log(responseEnv.mensagem)
-            }
-
-            setDataForm({
-                codigo_prod_cliente: '',
-                descricao_cod_cliente: '',
-                grupo_cod_cliente: '',
-                descricao_grupo_cod_cliente: '',
-                sub_grupo_cod_cliente: '',
-                descricao_sub_grupo_cod_cliente: '',
-                valor_custo_cod_cliente: '',
-                valor_venda_cod_cliente: '',
-                estoque_cod_cliente: '',
-            });
+    //variavel para o botao consultar
+    const [consultar, setConsultar] = useState(false);
 
 
-        } catch (err) {
-            console.log("ERRO: Tente novamente")
-        }*/
+    function handleClickConsultar() {
+        setConsultar(!consultar);
     }
 
     //Parte da pagina web
@@ -117,6 +115,12 @@ function codigo_produto() {
 
                 <br />
                 <form onSubmit={sendCodProduto}>
+                    
+                    <br/> <SelectCliente/> <br/>
+
+                    Selecione o codigo da Filial Cliente:
+                    <SelectFilialCliente/> <br/>
+
                     Codigo produto:
                     <input style={espacoStyle} type="number" id="codigo_prod_cliente" name="codigo_prod_cliente" onChange={onChangeInput} value={dataForm.codigo_prod_cliente}></input>
                     Descrição:
@@ -145,11 +149,27 @@ function codigo_produto() {
 
                     <br /><br />
 
-                    <button type='submit'>Enviar</button>
+                    <div className='blocobtn'>
+                        <br />
+                        <div className='btn'>
+                            <button type='submit'>Enviar</button>
+                        </div>
+                        <div className='btn'>
+                            <button type='button' onClick={handleClickConsultar}>consultar</button>
+                        </div>
+                    </div>
+
                 </form>
 
 
             </div>
+
+            {consultar === true && (
+                <Consult />
+            )}
+
+            {consultar === false && (<div></div>)}
+
         </section>
         <br />
         PÁGINA codigo_produto
